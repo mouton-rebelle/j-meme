@@ -41,7 +41,7 @@ var MemeApp = React.createClass({
           <div className="col-sm-6">
             <form className="form">
               <div className="form-group">
-                <input className="form-control" placeholder="header" type="text" onChange={this.onTextsChanged} ref="headerTextInput"/>
+                <textarea className="form-control" placeholder="header" type="text" onChange={this.onTextsChanged} ref="headerTextInput" rows="3"></textarea>
               </div>
               <div className="form-group">
                 <input className="form-control" placeholder="footer" type="text" onChange={this.onTextsChanged} ref="footerTextInput"/>

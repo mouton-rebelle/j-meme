@@ -7,75 +7,39 @@ var MemeBuilder = React.createClass({
   getInitialState: function() {
     return {};
   },
-  componentDidMount: function() {
-    d3.select("#svg").on("click", function(){
-    var html = d3.select("svg")
-    .attr("version", 1.1)
-    .attr("xmlns:xlink","http://www.w3.org/1999/xlink")
-    .node().parentNode.innerHTML;
-console.log(html);
-    //console.log(html);
-    var imgsrc = 'data:image/svg+xml;base64,'+ window.btoa(html);
-    var img = '<img src="'+imgsrc+'">';
-    d3.select("#svgdataurl").html(img);
-
-
+  componentDidUpdate: function() {
     var canvas = document.querySelector("canvas"),
-    context = canvas.getContext("2d");
-
-    var image = new window.Image();
-    image.src = imgsrc;
+        ctx = canvas.getContext("2d"),
+        image = new window.Image();
+    canvas.width = 600;
+    canvas.height = 600;
+    image.src = '/images/'+this.props.image;
     image.onload = function() {
-    context.drawImage(image, 0, 0);
+      ctx.drawImage(image, 0, 0,600,600);
+      ctx.font = 'bold 60pt Arial';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#FFF';
+      ctx.stokeStyle = '#000';
+      ctx.lineWidth = 2;
+      this.props.headerText.split('\n').forEach(function(text,i){
+        ctx.fillText(text, 300, (i+1)*70,570);
+        ctx.strokeText(text, 300, (i+1)*70,570);
+      });
 
-    var canvasdata = canvas.toDataURL("image/png");
 
-    var pngimg = '<img src="'+canvasdata+'">';
-    d3.select("#pngdataurl").html(pngimg);
-
-    var a = document.createElement("a");
-    a.download = "sample.png";
-    a.href = canvasdata;
-    a.click();
-    };
-
-    });
+      ctx.fillText(this.props.footerText, 300, 560,570);
+      ctx.strokeText(this.props.footerText, 300, 560,570);
+    }.bind(this);
   },
-  componentDidUpdate: function() {
-    if (this.props.image)
-    {
-      var g = d3.select('#imageContainer');
-      var img = g.selectAll('image').data([this.props.image]);
 
-      img.enter()
-        .append('svg:image')
-        .attr('x',0)
-        .attr('y',0)
-        .attr('width',300)
-        .attr('height',300);
-
-      img.attr('xlink:href','/images/' + this.props.image);
-
-    }
-  },
   componentWillUnmount: function() {
 
   },
   render: function() {
     return <div className="meme_builder">
-      <div>
-        <svg id="svg" width="300" height="300">
-          <g id="imageContainer" data-img={this.props.image}></g>
-          <text x="150" y="30"
-            fill="#FFF" stroke="#000" strokeWidth="1px"
-            fontFamily="Arial" fontSize="30px" textAnchor="middle">{this.props.headerText.toUpperCase()}</text>
-          <text x="150" y="270"
-            fill="#FFF" stroke="#000" strokeWidth="1px"
-            fontFamily="Arial" fontSize="30px" textAnchor="middle">{this.props.footerText.toUpperCase()}</text>
-        </svg>
-      </div>
-      <canvas></canvas>
-      <div id="svgdataurl"></div>
+
+      <canvas id="canvas"></canvas>
+
     </div>;
   }
 });
