@@ -1,5 +1,5 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/";
-
+$brand-primary:#c00066;
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 
 .browsehappy {
@@ -11,28 +11,52 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/";
 
 /* Space out content a bit */
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
 }
-
+.container-fluid {
+    padding: 0 10px!important;
+}
+.header{
+    background: $brand-primary;
+    color:#FFF;
+    padding:10px;
+    h3{
+        margin:0;
+        padding:0;
+        small{
+            color:#000;
+        }
+    }
+    margin-bottom: 15px;
+}
 .picker{
     padding:0;
+    max-height: 140px;
+    overflow-y: scroll;
     &__item{
         list-style: none;
         margin:3px;
         display: inline-block;
         &__img{
-            max-width: 70px;
-            border:1px solid #000;
+            max-width: 63px;
+            opacity: 0.8;
+            border:1px solid #666;
         }
         &--selected .picker__item__img{
-            border-color:red;
+            border-color:#000;
+            opacity: 1;
         }
     }
 }
-
+.footer{
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 10px;
+    font-size: 11px;
+}
 #canvas{
     width:300px;
     height:300px;
-    border:1px solid #000;
+    border:1px solid $brand-primary;
+    background-color: #EEE;
+    margin-bottom: 10px;
 }

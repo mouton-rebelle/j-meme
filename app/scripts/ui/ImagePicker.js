@@ -27,9 +27,12 @@ var ImagePicker = React.createClass({
   },
   render: function() {
     return <div>
-        <input value={this.state.filter}
-               ref='filterTextInput'
+        <div className="form-group">
+        <input className="form-control" value={this.state.filter}
+               ref="filterTextInput"
+               placeholder="Pick your jeune !"
                onChange={this.onFilterChanged} />
+        </div>
         <ul className="picker">
         {this.props.images.filter(function(img){
           if (!this.state.filter)
@@ -43,7 +46,6 @@ var ImagePicker = React.createClass({
             return <ImagePickerItem url={img} key={img} selected={this.state.selectedImage===img} toggle={this.toggleSelectedImage}/>
           }.bind(this))
         }</ul>
-        <p>{this.state.selectedImage}</p>
       </div>;
   }
 });

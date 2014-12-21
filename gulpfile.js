@@ -27,8 +27,6 @@ gulp.task('styles', function () {
 });
 
 
-
-
 // CoffeeScript
 gulp.task('coffee', function () {
     return gulp.src(

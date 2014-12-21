@@ -16,24 +16,39 @@ var MemeBuilder = React.createClass({
     image.src = '/images/'+this.props.image;
     image.onload = function() {
       ctx.drawImage(image, 0, 0,600,600);
-      ctx.font = 'bold 60pt Arial';
       ctx.textAlign = 'center';
       ctx.fillStyle = '#FFF';
       ctx.stokeStyle = '#000';
       ctx.lineWidth = 2;
-      this.props.headerText.split('\n').forEach(function(text,i){
-        ctx.fillText(text, 300, (i+1)*70,570);
-        ctx.strokeText(text, 300, (i+1)*70,570);
-      });
-
-
-      ctx.fillText(this.props.footerText, 300, 560,570);
-      ctx.strokeText(this.props.footerText, 300, 560,570);
+      this.drawText(ctx,this.props.headerText.toUpperCase(),true);
+      this.drawText(ctx,this.props.footerText.toUpperCase(),false);
     }.bind(this);
   },
 
   componentWillUnmount: function() {
-
+  },
+  drawText:function(ctx,longText,fromTop)
+  {
+    var txtArr = longText.split('\n');
+    if (!fromTop)
+    {
+      txtArr = txtArr.reverse();
+    }
+    txtArr.forEach(function(text,i){
+      var baseFontSize = 80;
+      ctx.font = 'bold '+baseFontSize+'pt Impact';
+      while(ctx.measureText(text).width>570)
+      {
+        baseFontSize--;
+        ctx.font = 'bold '+baseFontSize+'pt Impact';
+      }
+      var y = fromTop ? 10+(i+1)*baseFontSize*1.2 : 580 - i*baseFontSize*1.15;
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillText(text, 304,y+4,570);
+      ctx.fillStyle = '#FFF';
+      ctx.fillText(text, 300,y,570);
+      ctx.strokeText(text, 300,y,570);
+    });
   },
   render: function() {
     return <div className="meme_builder">

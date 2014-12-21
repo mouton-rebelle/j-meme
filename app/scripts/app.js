@@ -29,10 +29,24 @@ var MemeApp = React.createClass({
   imagePicked: function(url) {
     this.setState({image: url});
   },
+  downloadCanvas: function(evt) {
+    var btn = document.getElementById('downloadLink');
+    btn.href = document.getElementById('canvas').toDataURL();
+    var now = new Date(),
+        tmp = this.state.image.split('.');
+    var name = [
+      tmp[0],
+      now.getDate(),
+      (now.getMonth()+1),
+      now.getFullYear(),
+      now.getHours()+'h'+now.getMinutes(),
+      'png'
+    ];
+    btn.download = name.join('.');
+  },
   render: function() {
     return (
       <div>
-        <h3>Pick ton jeune</h3>
         <ImagePicker images={this.props.images} onImagePicked={this.imagePicked}/>
         <div className="row">
           <div className="col-sm-6">
@@ -41,10 +55,13 @@ var MemeApp = React.createClass({
           <div className="col-sm-6">
             <form className="form">
               <div className="form-group">
-                <textarea className="form-control" placeholder="header" type="text" onChange={this.onTextsChanged} ref="headerTextInput" rows="3"></textarea>
+                <textarea className="form-control" placeholder="head of your jeune" type="text" onChange={this.onTextsChanged} ref="headerTextInput" rows="2"></textarea>
               </div>
               <div className="form-group">
-                <input className="form-control" placeholder="footer" type="text" onChange={this.onTextsChanged} ref="footerTextInput"/>
+                <textarea className="form-control" placeholder="jeune to the bottom" type="text" onChange={this.onTextsChanged} ref="footerTextInput" rows="2"/>
+              </div>
+              <div className="form-group">
+                <a className="btn btn-block btn-primary" disabled={!this.state.image} href="#" id="downloadLink" onClick={this.downloadCanvas}>Save your jeune</a>
               </div>
             </form>
           </div>
