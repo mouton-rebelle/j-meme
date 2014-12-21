@@ -30,17 +30,19 @@ var MemeBuilder = React.createClass({
   drawText:function(ctx,longText,fromTop)
   {
     var txtArr = longText.split('\n');
+    var font = ( window.navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? 'Bangers' : 'Impact' );
     if (!fromTop)
     {
       txtArr = txtArr.reverse();
     }
+
     txtArr.forEach(function(text,i){
       var baseFontSize = 80;
-      ctx.font = 'bold '+baseFontSize+'pt Impact';
+      ctx.font = 'bold '+baseFontSize+'pt ' + font;
       while(ctx.measureText(text).width>570)
       {
         baseFontSize--;
-        ctx.font = 'bold '+baseFontSize+'pt Impact';
+        ctx.font = 'bold '+baseFontSize+'pt ' + font;
       }
       var y = fromTop ? 10+(i+1)*baseFontSize*1.2 : 580 - i*baseFontSize*1.15;
       ctx.fillStyle = 'rgba(0,0,0,0.5)';
